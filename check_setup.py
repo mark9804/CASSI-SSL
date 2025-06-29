@@ -93,24 +93,42 @@ def check_datasets():
 
 
 def check_files():
-    """检查必要的文件"""
+    """检查必要的文件和包"""
     required_files = [
         "train_code/train.py",
         "train_code/option.py",
         "train_code/utils.py",
-        "train_code/architecture.py",
         "train_code/loss.py",
+        "train_code/template.py",
+        "train_code/ssim_torch.py",
         "run_train.sh",
         "prepare_data.py",
+        "download_real_masks.py",
+        "test_mask_data.py",
+    ]
+
+    required_packages = [
+        ("train_code/architecture/__init__.py", "architecture包"),
+        ("train_code/architecture/GAP_Net.py", "GAP-Net模型"),
     ]
 
     missing_files = []
+
+    # 检查普通文件
     for file_path in required_files:
         if os.path.exists(file_path):
             print(f"✓ {file_path} 存在")
         else:
             missing_files.append(file_path)
             print(f"✗ {file_path} 不存在")
+
+    # 检查Python包
+    for package_path, description in required_packages:
+        if os.path.exists(package_path):
+            print(f"✓ {description} 存在")
+        else:
+            missing_files.append(package_path)
+            print(f"✗ {description} 不存在")
 
     return missing_files
 

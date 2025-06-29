@@ -24,7 +24,7 @@ mkdir -p datasets/masks/simulation/
 echo "开始数据预处理..."
 if [ ! -d "datasets/CAVE_processed" ] || [ ! -d "datasets/KAIST_processed" ]; then
     echo "运行数据预处理脚本..."
-    python3 prepare_data.py
+    uv run prepare_data.py
     if [ $? -ne 0 ]; then
         echo "错误: 数据预处理失败"
         exit 1
@@ -36,7 +36,7 @@ fi
 # 下载并设置真实的CASSI mask数据
 if [ ! -f "datasets/masks/simulation/mask.mat" ]; then
     echo "正在下载真实的CASSI mask数据..."
-    python3 download_real_masks.py
+    uv run download_real_masks.py
     if [ $? -ne 0 ]; then
         echo "错误: 真实mask数据下载失败"
         exit 1
@@ -52,7 +52,7 @@ export PYTHONPATH="${PWD}:${PWD}/train_code:${PYTHONPATH}"
 cd train_code
 
 # 运行训练
-python3 train.py \
+uv run train.py \
     --template gap_net \
     --gpu_id "0" \
     --data_root "../datasets/" \

@@ -43,7 +43,7 @@ datasets/KAIST/
 
 ### 自动下载真实mask数据
 ```bash
-python3 download_real_masks.py
+uv run download_real_masks.py
 ```
 
 这将下载：
@@ -59,7 +59,7 @@ python3 download_real_masks.py
 
 ### 测试Mask数据质量
 ```bash
-python3 test_mask_data.py
+uv run test_mask_data.py
 ```
 
 这将验证并可视化所有下载的mask：
@@ -82,11 +82,11 @@ python3 test_mask_data.py
 
 ```bash
 # 步骤1: 数据预处理
-python3 prepare_data.py
+uv run prepare_data.py
 
 # 步骤2: 训练
 cd train_code
-python3 train.py --template gap_net --gpu_id "0" --data_root "../datasets/" --outf "../exp/gap_net/"
+uv run train.py --template gap_net --gpu_id "0" --data_root "../datasets/" --outf "../exp/gap_net/"
 ```
 
 ## 自定义参数

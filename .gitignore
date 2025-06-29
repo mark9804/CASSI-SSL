@@ -1,2 +1,3 @@
 /datasets/
 !/datasets/download_dataset.sh
+/exp/
