@@ -155,19 +155,30 @@ def train(epoch, logger):
         if epoch <= 60:
             # 前60个epoch：仅使用测量一致性损失和总变分损失
             # 这是为了让网络首先学会基本的重建能力
+            # input_mask_train 是 (Phi_batch, Phi_s_batch) 元组，取第一个元素 Phi_batch
+            phi_mask = (
+                input_mask_train[0]
+                if isinstance(input_mask_train, tuple)
+                else input_mask_train
+            )
             loss = torch.sqrt(
                 F.mse_loss(
-                    forward_model(model_out, input_mask_train[0], 2),
+                    forward_model(model_out, phi_mask, 2),
                     input_meas / 28 * 2,
                 )
             ) + 0.01 * tv(model_out)
         else:
             # 60个epoch后：加入谱低秩损失
             # 这是论文的核心创新，强制网络学习光谱的低秩结构
+            phi_mask = (
+                input_mask_train[0]
+                if isinstance(input_mask_train, tuple)
+                else input_mask_train
+            )
             loss = (
                 torch.sqrt(
                     F.mse_loss(
-                        forward_model(model_out, input_mask_train[0], 2),
+                        forward_model(model_out, phi_mask, 2),
                         input_meas / 28 * 2,
                     )
                 )
