@@ -121,12 +121,31 @@ def process_kaist_set(set_path: str, output_dir: str, set_name: str) -> bool:
         for i, video_dir in enumerate(video_dirs):
             video_path = os.path.join(set_path, video_dir)
 
-            # 查找图像文件
+            # 查找图像文件，首先在视频目录下直接查找
             image_files = []
             for ext in ["*.png", "*.jpg", "*.tif", "*.tiff"]:
                 image_files.extend(glob.glob(os.path.join(video_path, ext)))
 
+            # 如果没找到，检查是否有子目录（如visible、lwir等）
             if not image_files:
+                subdirs = [
+                    d
+                    for d in os.listdir(video_path)
+                    if os.path.isdir(os.path.join(video_path, d))
+                ]
+                # 优先选择visible目录，如果没有就用第一个子目录
+                if "visible" in subdirs:
+                    subdir_path = os.path.join(video_path, "visible")
+                elif subdirs:
+                    subdir_path = os.path.join(video_path, subdirs[0])
+                else:
+                    continue
+
+                for ext in ["*.png", "*.jpg", "*.tif", "*.tiff"]:
+                    image_files.extend(glob.glob(os.path.join(subdir_path, ext)))
+
+            if not image_files:
+                print(f"警告: 在 {video_path} 中未找到图像文件")
                 continue
 
             image_files.sort()
