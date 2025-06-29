@@ -1,5 +1,9 @@
 # CASSI-SSL 训练脚本使用说明
 
+Todo
+
+- [ ] https://github.com/mengziyi64/TSA-Net/tree/master/TSA_Net_realdata/Data
+
 ## 概述
 
 这个脚本包自动处理 CASSI-SSL 自监督高光谱图像重建的完整训练流程，包括数据预处理和模型训练。
@@ -12,6 +16,12 @@
 - `test_mask_data.py` - mask数据测试和可视化脚本
 - `check_setup.py` - 环境检查脚本
 - `README_TRAINING.md` - 本说明文档
+
+## 环境配置
+
+```bash
+uv sync
+```
 
 ## 数据集要求
 
@@ -160,7 +170,7 @@ nvidia-smi -l 1
 
 确保安装了以下Python包：
 ```bash
-pip install torch torchvision scipy numpy pillow scikit-image gdown
+uv add torch torchvision scipy numpy pillow scikit-image gdown
 ```
 
 *注：gdown包用于下载真实CASSI mask数据*
